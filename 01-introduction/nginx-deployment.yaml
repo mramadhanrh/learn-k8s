@@ -1,0 +1,61 @@
+# Kubernetes Deployment Configuration for NGINX
+#
+# Description:
+#   This manifest defines a Kubernetes Deployment that creates and manages 3 replicas
+#   of NGINX web server pods. Each pod runs the latest NGINX image and exposes port 80.
+#
+# Usage:
+#
+# Apply the deployment:
+#   kubectl apply -f nginx-deployment.yaml
+#   - Creates the deployment and spins up 3 NGINX pods
+#
+# Expose the deployment (create a service):
+#   kubectl expose deployment nginx-deployment --type=NodePort --port=80
+#   - Creates a NodePort service to make the deployment accessible
+#   - Alternative: Use --type=LoadBalancer for cloud environments
+#   - Alternative: Use --type=ClusterIP for internal cluster access only
+#
+# Access via Minikube (when using Minikube):
+#   minikube service nginx-deployment
+#   - Opens the service in your default browser with the correct URL
+#   - Automatically handles NodePort mapping in Minikube environment
+#
+# Get service URL without opening browser:
+#   minikube service nginx-deployment --url
+#   - Prints the accessible URL for the service
+#
+# Delete the deployment:
+#   kubectl delete deployment nginx-deployment
+#   - Removes the deployment and all associated pods
+#
+# Delete the service (if created):
+#   kubectl delete service nginx-deployment
+#   - Removes the service endpoint
+#
+# View deployment status:
+#   kubectl get deployments
+#   kubectl get pods
+#   kubectl describe deployment nginx-deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
