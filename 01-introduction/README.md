@@ -400,14 +400,14 @@ Without Services:
 graph LR
     A[Client] -.->|IP: 10.1.2.3| P1[Pod 1]
     A -.->|IP: 10.1.2.4| P2[Pod 2]
-
     P1 -->|Dies| X1[❌]
     P3[Pod 3<br/>New IP: 10.1.2.5] -.-> X1
 
-    Note right of A: Client loses connection!<br/>Must discover new IP
-
     style X1 fill:#ff0000
+    style A fill:#99ccff
 ```
+
+_Client loses connection! Must discover new IP_
 
 With Services:
 
@@ -416,14 +416,14 @@ graph LR
     A[Client] -->|Stable IP: 10.96.0.10| S[Service]
     S -->|Load balances| P1[Pod 1]
     S -->|Load balances| P2[Pod 2]
-
     P1 -->|Dies| X1[❌]
     P3[Pod 3] --> S
 
-    Note right of S: Service automatically<br/>updates endpoints
-
     style S fill:#99ff99
+    style A fill:#99ccff
 ```
+
+_Service automatically updates endpoints_
 
 ### Service Types
 
